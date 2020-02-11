@@ -1,53 +1,68 @@
 <template>
-    <v-app id="inspire">
-        <v-navigation-drawer
-                fixed
-                v-model="drawer"
-                app
+  <v-app id="inspire">
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list dense>
+        <v-list-item
+          link
+          v-for="(item, i) in items"
+          :key="i"
+          :to="{ name: item.path }"
         >
-            <v-list dense>
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 
-                    <v-list-tile :to="'/'">
-                        <v-list-tile-action>
-                            <v-icon>home</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title>Home</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
+    <v-app-bar app color="indigo" dark>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Admin</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon @click="logout">
+        <v-icon>exit_to_app</v-icon>
+      </v-btn>
+      <form method="POST" action="/logout" id="logout" class="d-none">
+        <input type="hidden" name="_token" value="" />
+      </form>
+    </v-app-bar>
 
-            </v-list>
-        </v-navigation-drawer>
-        <v-toolbar color="indigo" dark fixed app>
-            <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        </v-toolbar>
-        <v-content>
-            <v-container fluid fill-height>
-                <v-layout
-                        justify-center
-                        align-center
-                >
-                    <v-progress-circular indeterminate :size="50" color="primary" v-show="login.waiting"></v-progress-circular>
-                    <router-view v-show="!login.waiting"/>
-                </v-layout>
-            </v-container>
-        </v-content>
-    </v-app>
-
+    <v-content>
+      <v-container fluid><router-view></router-view></v-container>
+    </v-content>
+    <v-footer color="indigo" app>
+      <span class="white--text body-2"
+        >Copyright 2020. All Rights Reserved.</span
+      >
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState } from "vuex";
 
 export default {
-  name: 'app',
+  name: "app",
   data: () => ({
-    drawer: null
+    drawer: false,
+    items: [
+      {
+        icon: "mdi-view-dashboard",
+        title: "Home",
+        path: ""
+      }
+    ]
   }),
   methods: {
-    ...mapActions(['checkLogin'])
+    ...mapActions(["checkLogin"]),
+    logout() {
+      // logout here
+    }
   },
-  computed: mapState(['login']),
+  computed: mapState(["login"]),
   created() {
     this.checkLogin();
   }
