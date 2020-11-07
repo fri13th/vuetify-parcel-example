@@ -2,12 +2,7 @@
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app>
       <v-list dense>
-        <v-list-item
-          link
-          v-for="(item, i) in items"
-          :key="i"
-          :to="{ name: item.path }"
-        >
+        <v-list-item link v-for="(item, i) in items" :key="i" :to="{ name: item.path }">
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -30,39 +25,37 @@
       </form>
     </v-app-bar>
 
-    <v-content>
+    <v-main>
       <v-container fluid><router-view></router-view></v-container>
-    </v-content>
+    </v-main>
     <v-footer color="indigo" app>
-      <span class="white--text body-2"
-        >Copyright 2020. All Rights Reserved.</span
-      >
+      <span class="white--text body-2">Copyright 2020. All Rights Reserved.</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from 'vuex';
 
 export default {
-  name: "app",
+  name: 'app',
   data: () => ({
     drawer: false,
     items: [
       {
-        icon: "mdi-view-dashboard",
-        title: "Home",
-        path: ""
+        icon: 'mdi-view-dashboard',
+        title: 'Home',
+        path: ''
       }
     ]
   }),
   methods: {
-    ...mapActions(["checkLogin"]),
+    ...mapActions(['checkLogin']),
     logout() {
       // logout here
     }
   },
-  computed: mapState(["login"]),
+  computed: mapState(['login']),
   created() {
     this.checkLogin();
   }

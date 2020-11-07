@@ -8,7 +8,10 @@ Vue.use(VueRouter);
 const router = new VueRouter({
   mode: 'history',
   linkActiveClass: 'active',
-  routes: [{ path: '/', component: Home }, { path: '/login', component: Login }]
+  routes: [
+    { path: '/', component: Home },
+    { path: '/login', component: Login }
+  ]
 });
 
 export default router;
